@@ -2,8 +2,7 @@ FROM ubuntu:19.04
 
 COPY ./files/ /tmp/files
 
-RUN sed -i "s/http:\/\/archive.ubuntu.com/http:\/\/mirrors.aliyun.com/g" /etc/apt/sources.list && \
-    sed -i '/security/d' /etc/apt/sources.list && \
+RUN sed -i -re 's/([a-z]{2}\.)?archive.ubuntu.com|security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list && \
     apt-get update && apt-get -y dist-upgrade && \
     apt-get install -y lib32z1 xinetd libstdc++6 lib32stdc++6 && \
     echo 'ctf - nproc 1500' >>/etc/security/limits.conf && \
